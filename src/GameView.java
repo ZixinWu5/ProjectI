@@ -19,6 +19,8 @@ public interface GameView
 	void askPlayerName();
 	//hide question when timed up
 	void hideQuestion();
+	//when prompt need to be out
+	void showQuestion();
 	//if time not count down, player not allow put answer in
 	void disableAnwerInput();
 	//allow player to input answer

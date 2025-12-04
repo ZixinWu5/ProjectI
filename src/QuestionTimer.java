@@ -13,8 +13,8 @@ import java.util.TimerTask;
 
 public class QuestionTimer
 {
-	private Timer timer;
-	private int count = 2; 
+	public Timer timer;
+	public int count = 2; 
 
 	public void start(int milliseconds, Runnable task)
 	{
@@ -35,15 +35,12 @@ public class QuestionTimer
 				{
 					System.out.println("Task complete");
 					//unlocked input
-					task.run();     
-					timer.cancel(); 
-					// stop timer
+					task.run();  
 				}
 			}
 		};
-
-		//run one time
-		timer.schedule(timerTask, milliseconds, milliseconds);
+		
+		timer.schedule(timerTask, milliseconds);
 	}
 
 }

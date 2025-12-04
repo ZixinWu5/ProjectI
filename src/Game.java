@@ -110,7 +110,7 @@ public class Game
     public void questionTimeUp()
     {
         view.hideQuestion();
-        view.enableAnswerInput();
+        view.allowAnswerInput();
     }
 
     //called when player submit answer

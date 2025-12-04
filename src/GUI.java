@@ -216,7 +216,7 @@ public interface GUI implements GameView
 
 		}
 		
-		//if something wrong show messgae
+		//if something wrong show message
 		public void showErrorMessage(String message)
 		{
 			messageLabel.setText(message);

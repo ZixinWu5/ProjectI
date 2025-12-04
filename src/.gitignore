@@ -13,3 +13,8 @@
 /GameTest$InstantQuestionTimer.class
 /Game.class
 /ScoreBoard.class
+/StandardMode.class
+/GameMode.class
+/Wordbank.class
+/SecretMode.class
+/CategoryListener.class
