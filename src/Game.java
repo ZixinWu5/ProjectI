@@ -245,7 +245,7 @@ public class Game
         //just in case if not authorize, file not exist
         try
         {
-            standardMode.saveRoundResult(result);
+            saveRoundResult(result);
         }
         //if during save have wrong, show the error message
         catch (Exception e)
@@ -310,5 +310,10 @@ public class Game
     public List<RoundResult> getHistory()
     {
         return List.copyOf(history);
+    }
+    
+    public void saveRoundResult(RoundResult result)
+    {
+    	return;
     }
 }
