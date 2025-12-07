@@ -16,7 +16,11 @@ import java.util.Random;
 public class Category
 {
 	private String name;
-	private String[] words;
+	private static String[] words;
+	
+	public static final Category FRUIT = new Category("fruit", words);
+	public static final Category ANIMAL = new Category("animal",words);
+	public static final Category DAILY = new Category("daily",words);
 	
 	public Category(String name, String[] words)
 	{

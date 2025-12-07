@@ -175,6 +175,7 @@ public class Game
     		askForNextCategory();
     	}
     }
+    
     //choose next category or move to secret mode
     private void askForNextCategory()
     {
@@ -212,7 +213,7 @@ public class Game
         view.showQuestion(question);
 
         // when time is running, disable input
-        view.allowAnswerInput();
+        view.disableAnwerInput();
 
         // task run after 4 seconds timer
         timer.start(questionTimer, new Runnable()
@@ -314,6 +315,6 @@ public class Game
     
     public void saveRoundResult(RoundResult result)
     {
-    	return;
+    	
     }
 }

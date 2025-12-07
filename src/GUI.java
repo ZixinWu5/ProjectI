@@ -11,14 +11,17 @@
 
 
 import javax.swing.*;
+
 import java.awt.*;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 import java.util.List;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-public interface GUI implements GameView
+public class GUI implements GameView
 {
 	private Game game;
 	//main window
@@ -159,6 +162,11 @@ public interface GUI implements GameView
 			questionLabel.setText("");
 		}
 		
+		public void showQuestion(Question question)
+		{
+			questionLabel.setText(question.getPrompt());
+		}
+		
 		//if time not up player cannot input answer
 		public void disableAnswerInput()
 		{
@@ -167,7 +175,7 @@ public interface GUI implements GameView
 		}
 		
 		//time up, player could put answer down
-		public void enableAnswerInput()
+		public void allowAnswerInput()
 		{
 			answerField.setEnabled(true);
 			submitButton.setEnabled(true);
@@ -186,7 +194,7 @@ public interface GUI implements GameView
 		}
 		
 		//check if player want to re do category
-		public boolean conformRedoCategory()
+		public void redoCategory()
 		{
 			messageLabel.setText("Do you want to play this category again?");
 			confirmPanel.setVisible(true);
@@ -215,6 +223,15 @@ public interface GUI implements GameView
 		    categoryDialog.setVisible(true);
 
 		}
+		
+		private void makeButton(Category category)
+		{
+			JButton button = new JButton(category.toString());
+			button.addActionListener();
+			categoryDialog.setVisible(false);
+			
+			}
+
 		
 		//if something wrong show message
 		public void showErrorMessage(String message)
@@ -253,4 +270,5 @@ public interface GUI implements GameView
 			messageLabel.setText(end);
 			JOptionPane.showMessageDialog(frame,  end, "GoodBye", JOptionPane.INFORMATION_MESSAGE);
 		}
+
 }

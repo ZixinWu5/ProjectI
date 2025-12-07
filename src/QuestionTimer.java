@@ -26,20 +26,9 @@ public class QuestionTimer
 			//show question time up, unlocked input
 			public void run()
 			{
-				//count will became 0
-				System.out.println("Timer tick");
-				count--;
-
-				//check if 4 seconds up
-				if (count <= 0)
-				{
-					System.out.println("Task complete");
-					//unlocked input
-					task.run();  
-				}
+				task.run();  
 			}
 		};
-		
 		timer.schedule(timerTask, milliseconds);
 	}
 

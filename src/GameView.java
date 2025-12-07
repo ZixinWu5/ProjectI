@@ -17,26 +17,35 @@ public interface GameView
 	void showWelcomeMessage();
 	//ask player name
 	void askPlayerName();
+	
 	//hide question when timed up
 	void hideQuestion();
 	//when prompt need to be out
-	void showQuestion();
+	void showQuestion(Question question);
+	
 	//if time not count down, player not allow put answer in
 	void disableAnwerInput();
 	//allow player to input answer
 	void allowAnswerInput();
+	
 	//update scores
 	void updateScore(ScoreBoard scoreBoard);
+	
 	//ask player if they want to re-do this category
 	void redoCategory();
+	
 	//in the unselected category, ask player to choose one
 	void askForCategorySelection(List<Category> remaining);
+	
 	//when file not saving correctly, or wrong input
 	void showErrorMessage(String message);
+	
 	//contain player name, category, correct questions, wrong questions, total scores
 	void showRoundSummary(RoundResult result);
+	
 	//if secret mode unlocked, ask player if they want to play it
 	boolean askPlaySecretMode();
+	
 	//when player choose not to play secret mode or unlocked secret mode but 3 categories are already played 1 time
 	void showEndMessage(String playerName);
 }
