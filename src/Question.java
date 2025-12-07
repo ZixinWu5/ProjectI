@@ -1,3 +1,5 @@
+import javax.swing.ImageIcon;
+
 /**
  * Lead Author(s):
  *
@@ -37,6 +39,16 @@ public class Question
 	public String getAnswer()
 	{
 		return answer;
+	}
+	
+	public boolean isPhoto()
+	{
+		return false;
+	}
+	
+	public ImageIcon getImage()
+	{
+		return null;
 	}
 	
 	//check if player answer is right

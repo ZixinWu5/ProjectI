@@ -24,7 +24,7 @@ public interface GameView
 	void showQuestion(Question question);
 	
 	//if time not count down, player not allow put answer in
-	void disableAnwerInput();
+	void disableAnswerInput();
 	//allow player to input answer
 	void allowAnswerInput();
 	

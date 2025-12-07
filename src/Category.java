@@ -17,9 +17,10 @@ public class Category
 {
 	private String name;
 	private static String[] words;
+	public static Category Zootopia;
 	
 	public static final Category FRUIT = new Category("fruit", words);
-	public static final Category ANIMAL = new Category("animal",words);
+	public static final Category ZOOTOPIA = new Category("zootopia",words);
 	public static final Category DAILY = new Category("daily",words);
 	
 	public Category(String name, String[] words)

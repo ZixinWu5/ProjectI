@@ -34,7 +34,7 @@ public class RoundResult
 		return playerName;
 	}
 	
-	//return category choosen
+	//return category choose
 	public Category getCategory()
 	{
 		return category;
@@ -59,8 +59,9 @@ public class RoundResult
 	}
 	
 	//show a summary
+	@Override
 	public String toString()
 	{
-		return playerName + "category:" + category + "correct: "+ correct +"incorrect: "+ incorrect + "finalScore: "finalScore;
+		return playerName + "category:" + category + "correct: "+ correct +"incorrect: "+ incorrect + "finalScore: "+ finalScore;
 	} 
 }

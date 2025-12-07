@@ -67,6 +67,7 @@ public class Game
     {
         view.showWelcomeMessage();
         view.askPlayerName();
+        askForNextCategory();
     }
 
     //use the player name after they typed it
