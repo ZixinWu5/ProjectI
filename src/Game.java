@@ -214,7 +214,7 @@ public class Game
         view.showQuestion(question);
 
         // when time is running, disable input
-        view.disableAnwerInput();
+        view.disableAnswerInput();
 
         // task run after 4 seconds timer
         timer.start(questionTimer, new Runnable()

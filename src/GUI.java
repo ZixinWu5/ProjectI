@@ -11,6 +11,7 @@
 import javax.swing.*;
 
 
+
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -19,11 +20,6 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JButton;
 import javax.swing.JPanel;
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.List;
 
 public class GUI implements GameView
 {
@@ -34,19 +30,24 @@ public class GUI implements GameView
 	private JLabel messageLabel;
 	// question
 	private JLabel questionLabel;
+	
 	// player put answer
 	private JTextField answerField;
 	// player answer question
 	private JButton submitButton;
+	
 	// show scores
 	private JLabel scoreLabel;
+	
 	// confirm for re do
 	private JPanel confirmPanel;
 	private JButton yesButton;
 	private JButton noButton;
+	
 	// dialog secret mode
 	private JDialog secretDialog;
 	private boolean secretChoice;
+	
 	// dialog for category
 	private JDialog categoryDialog;
 	private JPanel categoryPanel;
@@ -81,7 +82,7 @@ public class GUI implements GameView
 		// player put the answer in
 		JPanel inputPanel = new JPanel();
 		inputPanel.setLayout(new FlowLayout());
-		answerField = new JTextField(30);
+		answerField = new JTextField(30);  
 		submitButton = new JButton("Submit");
 		inputPanel.add(new JLabel("your answer:"));
 		inputPanel.add(answerField);
@@ -130,11 +131,11 @@ public class GUI implements GameView
 		secretDialog.add(buttonPanel, BorderLayout.SOUTH);
 		addSecretYesListeners(secretYes);
 		addSecretNoListener(secretNo);
-
-		submitButton.addActionListener(new SubmitButtonListener(this));
+		
+		
 		
 		frame.setVisible(true);
-	}  
+	} 
 
 	//secret button listener
 	private void addSecretYesListeners(JButton secretYes)
@@ -148,7 +149,7 @@ public class GUI implements GameView
 	}
 	
 	//handle submit listener
-	private void handleSubmitButton()
+	void handleSubmitButton()
 	{
 		String answer = answerField.getText();
 		if(game!= null)
@@ -205,7 +206,7 @@ public class GUI implements GameView
 
 	// if time not up player cannot input answer
 	@Override
-	public void disableAnswerInput()   
+	public void disableAnswerInput();
 	{
 		answerField.setEnabled(false);
 		submitButton.setEnabled(false);
@@ -246,21 +247,36 @@ public class GUI implements GameView
 	{
 		categoryPanel.removeAll();
 
-		if (remaining.contains(Category.FRUIT))
-		{
-			makeButton(Category.FRUIT);
-		}
-		if (remaining.contains(Category.Zootopia))
-		{
-			makeButton(Category.Zootopia);
-		}
-		if (remaining.contains(Category.DAILY))
-		{
-			makeButton(Category.DAILY);
-		}
-
+		makeCategoryButton(Category.FRUIT);
+		makeCategoryButton(Category.Zootopia);
+		makeCategoryButton(Category.DAILY);
+		
 		categoryDialog.pack();
 		categoryDialog.setVisible(true);
+	}
+	
+	private void makeCategoryButton(Category category)
+	{
+		if(category == null)
+		{
+			return;
+		}
+		JButton button = new JButton(category.toString());
+		button.addActionListener(new ActionListener()
+	    {
+	        @Override
+	        public void actionPerformed(ActionEvent e)
+	        {
+	          
+	            categoryDialog.setVisible(false);
+	            if (game != null)
+	            {
+	                game.categoryChosen(category);
+	            }
+	        }
+	    });
+
+	    categoryPanel.add(button);
 	}
 
 	private void makeButton(Category category)
