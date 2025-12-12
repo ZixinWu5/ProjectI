@@ -113,7 +113,11 @@ public class Game
     //called when timer time is up for a question
     public void questionTimeUp()
     {
-        view.hideQuestion();
+        Question q= currentQuestions.get(currentIndex);
+        if(q.isPhoto() == false)
+        {
+        	view.hideQuestion();
+        }
         view.allowAnswerInput();
     }
 
