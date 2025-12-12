@@ -9,6 +9,7 @@
  * version 1
  */
 import java.util.List;
+import java.util.Random;
 import java.util.ArrayList;
 
 class StandardMode extends GameMode
@@ -23,10 +24,15 @@ class StandardMode extends GameMode
 	{
 		List<Question> list = new ArrayList<>();
 		List<String> words = wordBank.getWordsForCategory(category);
-		for(int i =0; i < questionCount; i++)
+		
+		Random random = new Random();
+		int count = Math.min(questionCount, words.size());
+		for(int i = 0; i < count ; i++)
 		{
-			String w = words.get(i);
-			list.add(new Question("spell " + w, w));
+			int index = random.nextInt(words.size());
+			String w = words.get(index);
+			list.add(new Question("spell: "+ w,w));
+			words.remove(index);
 		}
 		return list;
 	}
