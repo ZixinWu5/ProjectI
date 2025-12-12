@@ -88,6 +88,7 @@ public class GUI implements GameView
 		inputPanel.add(answerField);
 		inputPanel.add(submitButton);
 		bottomPanel.add(inputPanel, BorderLayout.CENTER);
+		submitButton.addActionListener(new SubmitButtonListener(this));
 
 		// score
 		JPanel scorePanel = new JPanel();
@@ -148,6 +149,18 @@ public class GUI implements GameView
 		secretNo.addActionListener(new SecretNoListener(this));
 	}
 	
+	public void onSecretYesClicked()
+	{
+		secretChoice = true;
+		secretDialog.setVisible(false);
+	}
+	
+	public void onSecretNoClicked()
+	{
+		secretChoice = false;
+		secretDialog.setVisible(false);
+	}
+	
 	//handle submit listener
 	void handleSubmitButton()
 	{
@@ -206,7 +219,7 @@ public class GUI implements GameView
 
 	// if time not up player cannot input answer
 	@Override
-	public void disableAnswerInput();
+	public void disableAnswerInput()
 	{
 		answerField.setEnabled(false);
 		submitButton.setEnabled(false);
@@ -241,18 +254,28 @@ public class GUI implements GameView
 		confirmPanel.setVisible(true);
 	}
 
-	@Override
 	// player choose one category
+	@Override
 	public void askForCategorySelection(List<Category> remaining)
 	{
-		categoryPanel.removeAll();
+	    // clear buttons
+	    categoryPanel.removeAll();
 
-		makeCategoryButton(Category.FRUIT);
-		makeCategoryButton(Category.Zootopia);
-		makeCategoryButton(Category.DAILY);
-		
-		categoryDialog.pack();
-		categoryDialog.setVisible(true);
+	    // go through each remaining category
+	    for (int i = 0; i < remaining.size(); i++)
+	    {
+	        Category category = remaining.get(i);
+	        // create one button for this category
+	        makeCategoryButton(category);
+	    }
+
+	    // refresh panel so buttons show up
+	    categoryPanel.revalidate();
+	    categoryPanel.repaint();
+
+	    // show dialog
+	    categoryDialog.pack();
+	    categoryDialog.setVisible(true);
 	}
 	
 	private void makeCategoryButton(Category category)
@@ -281,7 +304,7 @@ public class GUI implements GameView
 
 	private void makeButton(Category category)
 	{
-		JButton button = new JButton(category.toString());
+		JButton button = new JButton(category.getName());
 		button.addActionListener(new ActionListener()
 		{
 			@Override

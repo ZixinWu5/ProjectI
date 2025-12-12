@@ -27,6 +27,8 @@ public class Game
     private final GameMode standardMode;
     //game has a secret mode
     private final GameMode secretMode;
+    //current running mode
+    private GameMode currentMode;
     //game has a timer for question
     private final QuestionTimer timer;
 
@@ -58,6 +60,7 @@ public class Game
         this.tracker = tracker;
         this.standardMode = standardMode;
         this.secretMode = secretMode;
+        this.currentMode = standardMode;
         this.timer = timer;
         this.history = new ArrayList<>();
     }
@@ -129,16 +132,16 @@ public class Game
         boolean correct = question.checkAnswer(answer);
 
         //if this mode has score, update score
-        if (standardMode.isScored())
+        if(currentMode != null && currentMode.isScored())
         {
-            if (correct)
-            {
-                scoreBoard.addCorrect();
-            }
-            else
-            {
-                scoreBoard.addIncorrect();
-            }
+        	if(correct==true)
+        	{
+        		scoreBoard.addCorrect();
+        	}
+        	else
+        	{
+        		scoreBoard.addIncorrect();
+        	}
         }
 
         //update points on view
@@ -194,7 +197,8 @@ public class Game
     //start standard mode round
     private void startStandardRoundForCurrentCategory()
     {
-        //reset score
+        currentMode = standardMode;
+    	//reset score
         scoreBoard.reset();
 
         //standard mode choose questions from word bank
@@ -298,7 +302,9 @@ public class Game
     //start secret mode round
     private void startSecretModeRound()
     {
-        //reset point in secret mode
+    	//so it don't mix up with standard mode
+        currentMode = secretMode;
+    	//reset point in secret mode
         scoreBoard.reset();
         //take question from word bank using secret mode
         currentQuestions = secretMode.buildRound(currentCategory, wordBank, secretModeQuestions);
