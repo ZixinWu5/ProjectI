@@ -1,0 +1,110 @@
+apple
+banana
+orange
+strawberry
+grape
+pineapple
+lychee
+plum
+guava
+cherry
+pear
+pomegranate
+avocado
+mango
+tangerine
+passion fruit
+wax apple
+papaya
+lemon
+raspberry
+blueberry
+kiwi
+nectarine
+water melon
+apricot
+persimmon
+lime
+peach
+dragon fruit
+cranberry
+fig
+durian
+jackfruit
+custard apple
+champedak
+tamarind
+rambutan
+lucuma
+mangosteen
+longkong
+longan
+yacon
+salak
+wampee
+hawthron
+greengage
+damson
+olive
+jujube
+date
+prune
+sapodilla
+ginseng
+carambola
+cherry tomato
+prickly pear
+red delicious
+fuji apple
+gala apple
+pear
+crabapple
+hosui pear
+nectarine
+apricot
+loquat
+grapefruit
+mandarin
+clementine
+ponkan
+ugli fruit
+bergamot
+key lime
+tangelo
+pummelo
+citron
+black currant
+waxberry
+loganberry
+tayberry
+acai berry
+snowberry
+goji berry
+white currant
+red currant
+cloudberry
+chokeberry 
+dewberry
+salmonberry
+marionberry
+wineberry
+youngberry
+lingonberry
+cucamelon
+muskmelon
+korean melon
+hami melon
+honeydew melon
+honred melon
+cantaloupe
+jade dew melon
+crenshaw
+casaba
+charentais
+crane melon
+sugar melon
+galia melon
+blood peach
+red pomelo
+pink pineapple
+zucchini
