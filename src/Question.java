@@ -46,7 +46,7 @@ public class Question
 		return false;
 	}
 	
-	public ImageIcon getImage()
+	public ImageIcon getImageIcon()
 	{
 		return null;
 	}

@@ -10,15 +10,16 @@
  */
 
 import javax.swing.ImageIcon;
+import java.net.URL;
 
 public class PhotoQuestion extends Question
 {
-	private ImageIcon image;
+	private String imagePath;
 
 	public PhotoQuestion(String answer, String imagePath)
 	{
 		super("What do you think the name of the animal?", answer);
-		this.image = new ImageIcon(imagePath);
+		this.imagePath = imagePath;
 	}
 	
 	public boolean isPhoto()
@@ -26,9 +27,15 @@ public class PhotoQuestion extends Question
 		return true;
 	}
 	
-	public ImageIcon getImage()
+	@Override
+	public ImageIcon getImageIcon()
 	{
-		return image;
+		URL url = getClass().getResource("/" + imagePath);
+		if(url == null)
+		{
+			System.out.println("image not found"+ imagePath);
+			return null;
+		}
+		return new ImageIcon(url);
 	}
-	
 }

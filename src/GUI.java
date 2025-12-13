@@ -39,6 +39,9 @@ public class GUI implements GameView
 	// show scores
 	private JLabel scoreLabel;
 	
+	//show image
+	private JLabel imageLabel;
+	
 	// confirm for re do
 	private JPanel confirmPanel;
 	private JButton yesButton;
@@ -69,11 +72,12 @@ public class GUI implements GameView
 
 		// middle window
 		JPanel centerPanel = new JPanel();
-		centerPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
-		// question
-		questionLabel = new JLabel("");
+		centerPanel.setLayout(new BorderLayout());
+		questionLabel = new JLabel("", SwingConstants.CENTER);
 		questionLabel.setFont(new Font("Questions", Font.BOLD, 25));
-		centerPanel.add(questionLabel);
+		imageLabel = new JLabel("", SwingConstants.CENTER);
+		centerPanel.add(questionLabel, BorderLayout.NORTH);
+		centerPanel.add(imageLabel, BorderLayout.CENTER);
 		frame.add(centerPanel, BorderLayout.CENTER);
 
 		// bottom window
@@ -133,9 +137,15 @@ public class GUI implements GameView
 		addSecretYesListeners(secretYes);
 		addSecretNoListener(secretNo);
 		
+		//show image
+		JPanel middle = new JPanel(new BorderLayout());
+		questionLabel = new JLabel("", SwingConstants.CENTER);
+		questionLabel.setFont(new Font("Questions", Font.BOLD, 25));
+		imageLabel = new JLabel("", SwingConstants.CENTER);
+		middle.add(questionLabel, BorderLayout.NORTH);
+		middle.add(imageLabel, BorderLayout.CENTER);
+		frame.add(middle, BorderLayout.CENTER);
 		
-		
-		frame.setVisible(true);
 	} 
 
 	//secret button listener
@@ -207,7 +217,7 @@ public class GUI implements GameView
 	{
 		if (question.isPhoto())
 		{
-			questionLabel.setIcon(question.getImage());
+			questionLabel.setIcon(question.getImageIcon());
 			questionLabel.setText("");
 		}
 		else
@@ -348,8 +358,18 @@ public class GUI implements GameView
 
 	public void showQuestionT(Question question)
 	{
-		questionLabel.setIcon(null);
 		questionLabel.setText(question.getPrompt());
+		
+		if(question.isPhoto())
+		{
+			imageLabel.setIcon(question.getImageIcon());
+		}
+		else
+		{
+			imageLabel.setIcon(null);
+		}
+		frame.revalidate();
+		frame.repaint();
 	}
 
 	@Override
