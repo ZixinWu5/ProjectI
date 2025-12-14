@@ -146,6 +146,7 @@ public class GUI implements GameView
 		middle.add(imageLabel, BorderLayout.CENTER);
 		frame.add(middle, BorderLayout.CENTER);
 		
+		categoryDialog.setVisible(true);
 	} 
 
 	//secret button listener
@@ -215,16 +216,17 @@ public class GUI implements GameView
 	@Override
 	public void showQuestion(Question question)
 	{
-		if (question.isPhoto())
-		{
-			questionLabel.setIcon(question.getImageIcon());
-			questionLabel.setText("");
-		}
-		else
-		{
-			questionLabel.setIcon(null);
-			questionLabel.setText(question.getPrompt());
-		}
+		System.out.println("GUI.showQuestion called: " + question.getPrompt());
+		questionLabel.setText(question.getPrompt());
+	    Image img = question.getImage(); 
+	    if (img == null)
+	    {
+	        imageLabel.setIcon(null);
+	    }
+	    else
+	    {
+	        imageLabel.setIcon(new ImageIcon(img));
+	    }
 	}
 
 	// if time not up player cannot input answer
@@ -265,29 +267,30 @@ public class GUI implements GameView
 	}
 
 	// player choose one category
-	@Override
-	public void askForCategorySelection(List<Category> remaining)
-	{
-	    // clear buttons
-	    categoryPanel.removeAll();
+	 @Override
+	 public void askForCategorySelection(List<Category> remaining)
+	 {
+	     // clear buttons
+	     categoryPanel.removeAll();
 
-	    // go through each remaining category
-	    for (int i = 0; i < remaining.size(); i++)
-	    {
-	        Category category = remaining.get(i);
-	        // create one button for this category
-	        makeCategoryButton(category);
-	    }
+	     // go through each remaining category
+	     for (int i = 0; i < remaining.size(); i++)
+	     {
+	         Category category = remaining.get(i);
+	         // create one button for this category
+	         makeCategoryButton(category);
+	     }
 
-	    // refresh panel so buttons show up
-	    categoryPanel.revalidate();
-	    categoryPanel.repaint();
+	     // refresh panel so buttons show up
+	     categoryPanel.revalidate();
+	     categoryPanel.repaint();
 
-	    // show dialog
-	    categoryDialog.pack();
-	    categoryDialog.setVisible(true);
-	}
-	
+	     // show dialog
+	     categoryDialog.pack();
+	     categoryDialog.setLocationRelativeTo(frame);
+	     categoryDialog.setVisible(true);
+	 }
+	 
 	private void makeCategoryButton(Category category)
 	{
 		if(category == null)
@@ -312,23 +315,23 @@ public class GUI implements GameView
 	    categoryPanel.add(button);
 	}
 
-	private void makeButton(Category category)
-	{
-		JButton button = new JButton(category.getName());
-		button.addActionListener(new ActionListener()
-		{
-			@Override
-			public void actionPerformed(ActionEvent e)
-			{
-				categoryDialog.setVisible(false);
-				if (game != null)
-				{
-					game.categoryChosen(category);
-				}
-			}
-		});
-		categoryPanel.add(button);
-	}
+//	private void makeButton(Category category)
+//	{
+//		JButton button = new JButton(category.getName());
+//		button.addActionListener(new ActionListener()
+//		{
+//			@Override
+//			public void actionPerformed(ActionEvent e)
+//			{
+//				categoryDialog.setVisible(false);
+//				if (game != null)
+//				{
+//					game.categoryChosen(category);
+//				}
+//			}
+//		});
+//		categoryPanel.add(button);
+//	}
 
 	@Override
 	// if something wrong show message
@@ -354,22 +357,6 @@ public class GUI implements GameView
 		secretChoice = false;
 		secretDialog.setVisible(true);
 		return secretChoice;
-	}
-
-	public void showQuestionT(Question question)
-	{
-		questionLabel.setText(question.getPrompt());
-		
-		if(question.isPhoto())
-		{
-			imageLabel.setIcon(question.getImageIcon());
-		}
-		else
-		{
-			imageLabel.setIcon(null);
-		}
-		frame.revalidate();
-		frame.repaint();
 	}
 
 	@Override

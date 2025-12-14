@@ -70,7 +70,6 @@ public class Game
     {
         view.showWelcomeMessage();
         view.askPlayerName();
-        askForNextCategory();
     }
 
     //use the player name after they typed it
@@ -101,6 +100,7 @@ public class Game
             }
         }
         this.playerName = name.substring(start, end + 1);
+        askForNextCategory();
     }
 
     //call when player choose category
@@ -114,7 +114,7 @@ public class Game
     public void questionTimeUp()
     {
         Question q= currentQuestions.get(currentIndex);
-        if(q.isPhoto() == false)
+        if(q.getImage() == null)
         {
         	view.hideQuestion();
         }
@@ -207,6 +207,7 @@ public class Game
 
         //standard mode choose questions from word bank
         currentQuestions = standardMode.buildRound(currentCategory, wordBank, standardModeQuestions);
+        
         //start with first question
         currentIndex = 0;
         //show first question
@@ -215,7 +216,6 @@ public class Game
 
     private void showNextQuestion()
     {
-        // take question
         Question question = currentQuestions.get(currentIndex);
 
         // show question

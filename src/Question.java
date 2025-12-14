@@ -1,4 +1,4 @@
-import javax.swing.ImageIcon;
+import java.awt.Image;
 
 /**
  * Lead Author(s):
@@ -41,12 +41,8 @@ public class Question
 		return answer;
 	}
 	
-	public boolean isPhoto()
-	{
-		return false;
-	}
-	
-	public ImageIcon getImageIcon()
+	//check image or not
+	public Image getImage()
 	{
 		return null;
 	}
