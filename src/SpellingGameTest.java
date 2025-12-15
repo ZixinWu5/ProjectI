@@ -24,7 +24,7 @@ public class SpellingGameTest
 
         List<Category> allCategories = new ArrayList<>();
         allCategories.add(Category.FRUIT);
-        allCategories.add(Category.ZOOTOPIA);
+        allCategories.add(Category.Zootopia);
         allCategories.add(Category.DAILY);
 
         Tracker tracker = new Tracker(3, allCategories);
