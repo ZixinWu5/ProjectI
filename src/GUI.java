@@ -11,6 +11,7 @@
 import javax.swing.*;
 
 
+
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -19,11 +20,6 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JButton;
 import javax.swing.JPanel;
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.List;
 
 public class GUI implements GameView
 {
@@ -34,19 +30,27 @@ public class GUI implements GameView
 	private JLabel messageLabel;
 	// question
 	private JLabel questionLabel;
+	
 	// player put answer
 	private JTextField answerField;
 	// player answer question
 	private JButton submitButton;
+	
 	// show scores
 	private JLabel scoreLabel;
+	
+	//show image
+	private JLabel imageLabel;
+	
 	// confirm for re do
 	private JPanel confirmPanel;
 	private JButton yesButton;
 	private JButton noButton;
+	
 	// dialog secret mode
 	private JDialog secretDialog;
 	private boolean secretChoice;
+	
 	// dialog for category
 	private JDialog categoryDialog;
 	private JPanel categoryPanel;
@@ -68,11 +72,12 @@ public class GUI implements GameView
 
 		// middle window
 		JPanel centerPanel = new JPanel();
-		centerPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
-		// question
-		questionLabel = new JLabel("");
+		centerPanel.setLayout(new BorderLayout());
+		questionLabel = new JLabel("", SwingConstants.CENTER);
 		questionLabel.setFont(new Font("Questions", Font.BOLD, 25));
-		centerPanel.add(questionLabel);
+		imageLabel = new JLabel("", SwingConstants.CENTER);
+		centerPanel.add(questionLabel, BorderLayout.NORTH);
+		centerPanel.add(imageLabel, BorderLayout.CENTER);
 		frame.add(centerPanel, BorderLayout.CENTER);
 
 		// bottom window
@@ -81,12 +86,13 @@ public class GUI implements GameView
 		// player put the answer in
 		JPanel inputPanel = new JPanel();
 		inputPanel.setLayout(new FlowLayout());
-		answerField = new JTextField(30);
+		answerField = new JTextField(30);  
 		submitButton = new JButton("Submit");
 		inputPanel.add(new JLabel("your answer:"));
 		inputPanel.add(answerField);
 		inputPanel.add(submitButton);
 		bottomPanel.add(inputPanel, BorderLayout.CENTER);
+		submitButton.addActionListener(new SubmitButtonListener(this));
 
 		// score
 		JPanel scorePanel = new JPanel();
@@ -130,11 +136,18 @@ public class GUI implements GameView
 		secretDialog.add(buttonPanel, BorderLayout.SOUTH);
 		addSecretYesListeners(secretYes);
 		addSecretNoListener(secretNo);
-
-		submitButton.addActionListener(new SubmitButtonListener(this));
 		
-		frame.setVisible(true);
-	}  
+		//show image
+		JPanel middle = new JPanel(new BorderLayout());
+		questionLabel = new JLabel("", SwingConstants.CENTER);
+		questionLabel.setFont(new Font("Questions", Font.BOLD, 25));
+		imageLabel = new JLabel("", SwingConstants.CENTER);
+		middle.add(questionLabel, BorderLayout.NORTH);
+		middle.add(imageLabel, BorderLayout.CENTER);
+		frame.add(middle, BorderLayout.CENTER);
+		
+		categoryDialog.setVisible(true);
+	} 
 
 	//secret button listener
 	private void addSecretYesListeners(JButton secretYes)
@@ -147,8 +160,20 @@ public class GUI implements GameView
 		secretNo.addActionListener(new SecretNoListener(this));
 	}
 	
+	public void onSecretYesClicked()
+	{
+		secretChoice = true;
+		secretDialog.setVisible(false);
+	}
+	
+	public void onSecretNoClicked()
+	{
+		secretChoice = false;
+		secretDialog.setVisible(false);
+	}
+	
 	//handle submit listener
-	private void handleSubmitButton()
+	void handleSubmitButton()
 	{
 		String answer = answerField.getText();
 		if(game!= null)
@@ -191,21 +216,22 @@ public class GUI implements GameView
 	@Override
 	public void showQuestion(Question question)
 	{
-		if (question.isPhoto())
-		{
-			questionLabel.setIcon(question.getImage());
-			questionLabel.setText("");
-		}
-		else
-		{
-			questionLabel.setIcon(null);
-			questionLabel.setText(question.getPrompt());
-		}
+		System.out.println("GUI.showQuestion called: " + question.getPrompt());
+		questionLabel.setText(question.getPrompt());
+	    Image img = question.getImage(); 
+	    if (img == null)
+	    {
+	        imageLabel.setIcon(null);
+	    }
+	    else
+	    {
+	        imageLabel.setIcon(new ImageIcon(img));
+	    }
 	}
 
 	// if time not up player cannot input answer
 	@Override
-	public void disableAnswerInput()   
+	public void disableAnswerInput()
 	{
 		answerField.setEnabled(false);
 		submitButton.setEnabled(false);
@@ -240,46 +266,72 @@ public class GUI implements GameView
 		confirmPanel.setVisible(true);
 	}
 
-	@Override
 	// player choose one category
-	public void askForCategorySelection(List<Category> remaining)
+	 @Override
+	 public void askForCategorySelection(List<Category> remaining)
+	 {
+	     // clear buttons
+	     categoryPanel.removeAll();
+
+	     // go through each remaining category
+	     for (int i = 0; i < remaining.size(); i++)
+	     {
+	         Category category = remaining.get(i);
+	         // create one button for this category
+	         makeCategoryButton(category);
+	     }
+
+	     // refresh panel so buttons show up
+	     categoryPanel.revalidate();
+	     categoryPanel.repaint();
+
+	     // show dialog
+	     categoryDialog.pack();
+	     categoryDialog.setLocationRelativeTo(frame);
+	     categoryDialog.setVisible(true);
+	 }
+	 
+	private void makeCategoryButton(Category category)
 	{
-		categoryPanel.removeAll();
-
-		if (remaining.contains(Category.FRUIT))
+		if(category == null)
 		{
-			makeButton(Category.FRUIT);
+			return;
 		}
-		if (remaining.contains(Category.Zootopia))
-		{
-			makeButton(Category.Zootopia);
-		}
-		if (remaining.contains(Category.DAILY))
-		{
-			makeButton(Category.DAILY);
-		}
-
-		categoryDialog.pack();
-		categoryDialog.setVisible(true);
-	}
-
-	private void makeButton(Category category)
-	{
 		JButton button = new JButton(category.toString());
 		button.addActionListener(new ActionListener()
-		{
-			@Override
-			public void actionPerformed(ActionEvent e)
-			{
-				categoryDialog.setVisible(false);
-				if (game != null)
-				{
-					game.categoryChosen(category);
-				}
-			}
-		});
-		categoryPanel.add(button);
+	    {
+	        @Override
+	        public void actionPerformed(ActionEvent e)
+	        {
+	          
+	            categoryDialog.setVisible(false);
+	            if (game != null)
+	            {
+	                game.categoryChosen(category);
+	            }
+	        }
+	    });
+
+	    categoryPanel.add(button);
 	}
+
+//	private void makeButton(Category category)
+//	{
+//		JButton button = new JButton(category.getName());
+//		button.addActionListener(new ActionListener()
+//		{
+//			@Override
+//			public void actionPerformed(ActionEvent e)
+//			{
+//				categoryDialog.setVisible(false);
+//				if (game != null)
+//				{
+//					game.categoryChosen(category);
+//				}
+//			}
+//		});
+//		categoryPanel.add(button);
+//	}
 
 	@Override
 	// if something wrong show message
@@ -305,12 +357,6 @@ public class GUI implements GameView
 		secretChoice = false;
 		secretDialog.setVisible(true);
 		return secretChoice;
-	}
-
-	public void showQuestionT(Question question)
-	{
-		questionLabel.setIcon(null);
-		questionLabel.setText(question.getPrompt());
 	}
 
 	@Override

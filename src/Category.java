@@ -17,7 +17,6 @@ public class Category
 {
 	private String name;
 	private static String[] words;
-	public static Category Zootopia;
 	
 	public static final Category FRUIT = new Category("fruit", words);
 	public static final Category ZOOTOPIA = new Category("zootopia",words);
@@ -30,6 +29,12 @@ public class Category
 	}
 	
 	public String getName()
+	{
+		return name;
+	}
+	
+	@Override
+	public String toString()
 	{
 		return name;
 	}
