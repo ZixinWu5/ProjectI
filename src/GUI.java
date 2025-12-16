@@ -1,16 +1,16 @@
+
 /**
  * Lead Author(s):
  *
  * @author 5550129061; zixin wu
- * References:
- *         Morelli, R., & Walde, R. (2016). Java, Java, Java: Object-Oriented Problem Solving.
+ *         References:
+ *         Morelli, R., & Walde, R. (2016). Java, Java, Java: Object-Oriented
+ *         Problem Solving.
  *         Retrieved from
  *         https://open.umn.edu/opentextbooks/textbooks/java-java-java-object-oriented-problem-solving
- * version 1
+ *         version 1
  */
 import javax.swing.*;
-
-
 
 import java.awt.*;
 import java.awt.event.ActionListener;
@@ -30,27 +30,27 @@ public class GUI implements GameView
 	private JLabel messageLabel;
 	// question
 	private JLabel questionLabel;
-	
+
 	// player put answer
 	private JTextField answerField;
 	// player answer question
 	private JButton submitButton;
-	
+
 	// show scores
 	private JLabel scoreLabel;
-	
-	//show image
+
+	// show image
 	private JLabel imageLabel;
-	
+
 	// confirm for re do
 	private JPanel confirmPanel;
 	private JButton yesButton;
 	private JButton noButton;
-	
+
 	// dialog secret mode
 	private JDialog secretDialog;
 	private boolean secretChoice;
-	
+
 	// dialog for category
 	private JDialog categoryDialog;
 	private JPanel categoryPanel;
@@ -86,7 +86,7 @@ public class GUI implements GameView
 		// player put the answer in
 		JPanel inputPanel = new JPanel();
 		inputPanel.setLayout(new FlowLayout());
-		answerField = new JTextField(30);  
+		answerField = new JTextField(30);
 		submitButton = new JButton("Submit");
 		inputPanel.add(new JLabel("your answer:"));
 		inputPanel.add(answerField);
@@ -126,7 +126,8 @@ public class GUI implements GameView
 		secretDialog.setSize(300, 150);
 		secretDialog.setLayout(new BorderLayout());
 		secretDialog.setLocationRelativeTo(frame);
-		JLabel text = new JLabel("Secret mode unlocked. Play it?", SwingConstants.CENTER);
+		JLabel text = new JLabel("Secret mode unlocked. Play it?",
+				SwingConstants.CENTER);
 		secretDialog.add(text, BorderLayout.CENTER);
 		JPanel buttonPanel = new JPanel();
 		JButton secretYes = new JButton("Yes");
@@ -136,8 +137,8 @@ public class GUI implements GameView
 		secretDialog.add(buttonPanel, BorderLayout.SOUTH);
 		addSecretYesListeners(secretYes);
 		addSecretNoListener(secretNo);
-		
-		//show image
+
+		// show image
 		JPanel middle = new JPanel(new BorderLayout());
 		questionLabel = new JLabel("", SwingConstants.CENTER);
 		questionLabel.setFont(new Font("Questions", Font.BOLD, 25));
@@ -145,43 +146,43 @@ public class GUI implements GameView
 		middle.add(questionLabel, BorderLayout.NORTH);
 		middle.add(imageLabel, BorderLayout.CENTER);
 		frame.add(middle, BorderLayout.CENTER);
-		
-		categoryDialog.setVisible(true);
-	} 
 
-	//secret button listener
+		categoryDialog.setVisible(true);
+	}
+
+	// secret button listener
 	private void addSecretYesListeners(JButton secretYes)
 	{
 		secretYes.addActionListener(new SecretYesListener(this));
 	}
-	
+
 	private void addSecretNoListener(JButton secretNo)
 	{
 		secretNo.addActionListener(new SecretNoListener(this));
 	}
-	
+
 	public void onSecretYesClicked()
 	{
 		secretChoice = true;
 		secretDialog.setVisible(false);
 	}
-	
+
 	public void onSecretNoClicked()
 	{
 		secretChoice = false;
 		secretDialog.setVisible(false);
 	}
-	
-	//handle submit listener
+
+	// handle submit listener
 	void handleSubmitButton()
 	{
 		String answer = answerField.getText();
-		if(game!= null)
+		if (game != null)
 		{
 			game.answerSubmit(answer);
 		}
 	}
-	
+
 	public void setGame(Game game)
 	{
 		this.game = game;
@@ -204,7 +205,7 @@ public class GUI implements GameView
 			game.playerName(name);
 		}
 	}
-	
+
 	// time up hide question
 	@Override
 	public void hideQuestion()
@@ -218,15 +219,15 @@ public class GUI implements GameView
 	{
 		System.out.println("GUI.showQuestion called: " + question.getPrompt());
 		questionLabel.setText(question.getPrompt());
-	    Image img = question.getImage(); 
-	    if (img == null)
-	    {
-	        imageLabel.setIcon(null);
-	    }
-	    else
-	    {
-	        imageLabel.setIcon(new ImageIcon(img));
-	    }
+		Image img = question.getImage();
+		if (img == null)
+		{
+			imageLabel.setIcon(null);
+		}
+		else
+		{
+			imageLabel.setIcon(new ImageIcon(img));
+		}
 	}
 
 	// if time not up player cannot input answer
@@ -254,7 +255,8 @@ public class GUI implements GameView
 		int correct = scoreBoard.getCorrectCount();
 		int incorrect = scoreBoard.getIncorrectCount();
 
-		String text = "Score: " + score + "  Correct: " + correct + "  Incorrect: " + incorrect;
+		String text = "Score: " + score + "  Correct: " + correct
+				+ "  Incorrect: " + incorrect;
 		scoreLabel.setText(text);
 	}
 
@@ -267,89 +269,94 @@ public class GUI implements GameView
 	}
 
 	// player choose one category
-	 @Override
-	 public void askForCategorySelection(List<Category> remaining)
-	 {
-	     // clear buttons
-	     categoryPanel.removeAll();
+	@Override
+	public void askForCategorySelection(List<Category> remaining)
+	{
+		// clear buttons
+		categoryPanel.removeAll();
 
-	     // go through each remaining category
-	     for (int i = 0; i < remaining.size(); i++)
-	     {
-	         Category category = remaining.get(i);
-	         // create one button for this category
-	         makeCategoryButton(category);
-	     }
+		// go through each remaining category
+		for (int i = 0; i < remaining.size(); i++)
+		{
+			Category category = remaining.get(i);
+			// create one button for this category
+			makeCategoryButton(category);
+		}
 
-	     // refresh panel so buttons show up
-	     categoryPanel.revalidate();
-	     categoryPanel.repaint();
+		// refresh panel so buttons show up
+		categoryPanel.revalidate();
+		categoryPanel.repaint();
 
-	     // show dialog
-	     categoryDialog.pack();
-	     categoryDialog.setLocationRelativeTo(frame);
-	     categoryDialog.setVisible(true);
-	 }
-	 
+		// show dialog
+		categoryDialog.pack();
+		categoryDialog.setLocationRelativeTo(frame);
+		categoryDialog.setVisible(true);
+	}
+
 	private void makeCategoryButton(Category category)
 	{
-		if(category == null)
+		if (category == null)
 		{
 			return;
 		}
 		JButton button = new JButton(category.toString());
 		button.addActionListener(new ActionListener()
-	    {
-	        @Override
-	        public void actionPerformed(ActionEvent e)
-	        {
-	          
-	            categoryDialog.setVisible(false);
-	            if (game != null)
-	            {
-	                game.categoryChosen(category);
-	            }
-	        }
-	    });
+		{
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
 
-	    categoryPanel.add(button);
+				categoryDialog.setVisible(false);
+				if (game != null)
+				{
+					game.categoryChosen(category);
+				}
+			}
+		});
+
+		categoryPanel.add(button);
 	}
 
-//	private void makeButton(Category category)
-//	{
-//		JButton button = new JButton(category.getName());
-//		button.addActionListener(new ActionListener()
-//		{
-//			@Override
-//			public void actionPerformed(ActionEvent e)
-//			{
-//				categoryDialog.setVisible(false);
-//				if (game != null)
-//				{
-//					game.categoryChosen(category);
-//				}
-//			}
-//		});
-//		categoryPanel.add(button);
-//	}
+	// private void makeButton(Category category)
+	// {
+	// JButton button = new JButton(category.getName());
+	// button.addActionListener(new ActionListener()
+	// {
+	// @Override
+	// public void actionPerformed(ActionEvent e)
+	// {
+	// categoryDialog.setVisible(false);
+	// if (game != null)
+	// {
+	// game.categoryChosen(category);
+	// }
+	// }
+	// });
+	// categoryPanel.add(button);
+	// }
 
 	@Override
 	// if something wrong show message
 	public void showErrorMessage(String message)
 	{
 		messageLabel.setText(message);
-		JOptionPane.showMessageDialog(frame, message, "Error", JOptionPane.INFORMATION_MESSAGE);
+		JOptionPane.showMessageDialog(frame, message, "Error",
+				JOptionPane.INFORMATION_MESSAGE);
 	}
 
 	@Override
 	// summary for player when one round end
 	public void showRoundSummary(RoundResult result)
 	{
-		String m = "Player: " + result.getPlayerName() + "  Category: " + result.getCategory()+ "  Correct: " + result.getCorrect()+ "  Incorrect: " + result.getIncorrect()+ "  Score: " + result.getFinalScore();
+		String m = "Player: " + result.getPlayerName() + "  Category: "
+				+ result.getCategory() + "  Correct: " + result.getCorrect()
+				+ "  Incorrect: " + result.getIncorrect() + "  Score: "
+				+ result.getFinalScore();
 		messageLabel.setText("Round end");
-		JOptionPane.showMessageDialog(frame, m, "Round summary", JOptionPane.INFORMATION_MESSAGE);
+		JOptionPane.showMessageDialog(frame, m, "Round summary",
+				JOptionPane.INFORMATION_MESSAGE);
 	}
-	
+
 	@Override
 	// dialog yes or no button for player choose open secret mode or not
 	public boolean askPlaySecretMode()
@@ -365,6 +372,7 @@ public class GUI implements GameView
 	{
 		String end = "GoodBye " + playerName;
 		messageLabel.setText(end);
-		JOptionPane.showMessageDialog(frame, end, "GoodBye", JOptionPane.INFORMATION_MESSAGE);
+		JOptionPane.showMessageDialog(frame, end, "GoodBye",
+				JOptionPane.INFORMATION_MESSAGE);
 	}
 }

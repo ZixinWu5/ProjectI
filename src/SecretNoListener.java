@@ -1,12 +1,14 @@
+
 /**
  * Lead Author(s):
  *
  * @author 5550129061; zixin wu
- * References:
- *         Morelli, R., & Walde, R. (2016). Java, Java, Java: Object-Oriented Problem Solving.
+ *         References:
+ *         Morelli, R., & Walde, R. (2016). Java, Java, Java: Object-Oriented
+ *         Problem Solving.
  *         Retrieved from
  *         https://open.umn.edu/opentextbooks/textbooks/java-java-java-object-oriented-problem-solving
- * version 1
+ *         version 1
  */
 
 import java.awt.event.ActionListener;
@@ -14,15 +16,16 @@ import java.awt.event.ActionEvent;
 
 public class SecretNoListener implements ActionListener
 {
-	private final GUI gui; 
-	
+	private final GUI gui;
+
 	public SecretNoListener(GUI gui)
 	{
 		this.gui = gui;
 	}
+
 	public void actionPerformed(ActionEvent e)
 	{
 		gui.onSecretNoClicked();
 	}
-	
+
 }
