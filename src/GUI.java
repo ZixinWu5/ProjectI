@@ -10,6 +10,17 @@
  *         https://open.umn.edu/opentextbooks/textbooks/java-java-java-object-oriented-problem-solving
  *         version 1
  */
+/**
+ * Lead Author(s):
+ *
+ * @author 5550129061; zixin wu
+ *         References:
+ *         Morelli, R., & Walde, R. (2016). Java, Java, Java: Object-Oriented
+ *         Problem Solving.
+ *         Retrieved from
+ *         https://open.umn.edu/opentextbooks/textbooks/java-java-java-object-oriented-problem-solving
+ *         version 1
+ */
 import javax.swing.*;
 
 import java.awt.*;
@@ -20,135 +31,123 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JButton;
 import javax.swing.JPanel;
-
 public class GUI implements GameView
 {
-	private Game game;
-	// main window
-	private JFrame frame;
-	// message (welcome, error information)
-	private JLabel messageLabel;
-	// question
-	private JLabel questionLabel;
+    private Game game;
 
-	// player put answer
-	private JTextField answerField;
-	// player answer question
-	private JButton submitButton;
+    // main window
+    private JFrame frame;
 
-	// show scores
-	private JLabel scoreLabel;
+    // message
+    private JLabel messageLabel;
 
-	// show image
-	private JLabel imageLabel;
+    // question + image
+    private JLabel questionLabel;
+    private JLabel imageLabel;
 
-	// confirm for re do
-	private JPanel confirmPanel;
-	private JButton yesButton;
-	private JButton noButton;
+    // answer input
+    private JTextField answerField;
+    private JButton submitButton;
 
-	// dialog secret mode
-	private JDialog secretDialog;
-	private boolean secretChoice;
+    // score
+    private JLabel scoreLabel;
 
-	// dialog for category
-	private JDialog categoryDialog;
-	private JPanel categoryPanel;
+    // redo confirm
+    private JPanel confirmPanel;
+    private JButton yesButton;
+    private JButton noButton;
 
-	public GUI()
-	{
-		frame = new JFrame("Spelling Game");
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setSize(800, 700);
-		frame.setLayout(new BorderLayout());
+    // secret dialog
+    private JDialog secretDialog;
+    private boolean secretChoice;
 
-		// top of the window
-		JPanel topPanel = new JPanel();
-		topPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
-		// welcome message
-		messageLabel = new JLabel("welcome");
-		topPanel.add(messageLabel);
-		frame.add(topPanel, BorderLayout.NORTH);
+    // category dialog
+    private JDialog categoryDialog;
+    private JPanel categoryPanel;
 
-		// middle window
-		JPanel centerPanel = new JPanel();
-		centerPanel.setLayout(new BorderLayout());
-		questionLabel = new JLabel("", SwingConstants.CENTER);
-		questionLabel.setFont(new Font("Questions", Font.BOLD, 25));
-		imageLabel = new JLabel("", SwingConstants.CENTER);
-		centerPanel.add(questionLabel, BorderLayout.NORTH);
-		centerPanel.add(imageLabel, BorderLayout.CENTER);
-		frame.add(centerPanel, BorderLayout.CENTER);
+    public GUI()
+    {
+    	//game name
+        frame = new JFrame("Spelling Game");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(800, 700);
+        frame.setLayout(new BorderLayout());
 
-		// bottom window
-		JPanel bottomPanel = new JPanel();
-		bottomPanel.setLayout(new BorderLayout());
-		// player put the answer in
-		JPanel inputPanel = new JPanel();
-		inputPanel.setLayout(new FlowLayout());
-		answerField = new JTextField(30);
-		submitButton = new JButton("Submit");
-		inputPanel.add(new JLabel("your answer:"));
-		inputPanel.add(answerField);
-		inputPanel.add(submitButton);
-		bottomPanel.add(inputPanel, BorderLayout.CENTER);
-		submitButton.addActionListener(new SubmitButtonListener(this));
+        // top
+        JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        messageLabel = new JLabel("welcome");
+        topPanel.add(messageLabel);
+        frame.add(topPanel, BorderLayout.NORTH);
 
-		// score
-		JPanel scorePanel = new JPanel();
-		scorePanel.setLayout(new FlowLayout(FlowLayout.LEFT));
-		scoreLabel = new JLabel("Score: 0");
-		scorePanel.add(scoreLabel);
-		bottomPanel.add(scorePanel, BorderLayout.SOUTH);
-		frame.add(bottomPanel, BorderLayout.SOUTH);
+        // question and image
+        JPanel centerPanel = new JPanel(new BorderLayout());
+        questionLabel = new JLabel("", SwingConstants.CENTER);
+        questionLabel.setFont(new Font("Questions", Font.BOLD, 25));
+        imageLabel = new JLabel("", SwingConstants.CENTER);
+        centerPanel.add(questionLabel, BorderLayout.NORTH);
+        centerPanel.add(imageLabel, BorderLayout.CENTER);
+        frame.add(centerPanel, BorderLayout.CENTER);
 
-		// confirm
-		confirmPanel = new JPanel();
-		yesButton = new JButton("Yes");
-		noButton = new JButton("No");
-		confirmPanel.add(yesButton);
-		confirmPanel.add(noButton);
-		frame.add(confirmPanel, BorderLayout.EAST);
-		confirmPanel.setVisible(false);
+        // input and submit
+        JPanel bottomPanel = new JPanel(new BorderLayout());
+        JPanel inputPanel = new JPanel(new FlowLayout());
+        answerField = new JTextField(30);
+        submitButton = new JButton("Submit");
+        inputPanel.add(new JLabel("your answer:"));
+        inputPanel.add(answerField);
+        inputPanel.add(submitButton);
 
-		// category choose panel
-		categoryDialog = new JDialog(frame, "Choose Category", true);
-		categoryDialog.setSize(350, 200);
-		categoryDialog.setLayout(new BorderLayout());
-		categoryDialog.setLocationRelativeTo(frame);
-		JLabel label = new JLabel("Choose a category:", SwingConstants.CENTER);
-		categoryDialog.add(label, BorderLayout.NORTH);
-		categoryPanel = new JPanel(new FlowLayout());
-		categoryDialog.add(categoryPanel, BorderLayout.CENTER);
+        bottomPanel.add(inputPanel, BorderLayout.CENTER);
 
-		// yes or no button for play secret mode
-		secretDialog = new JDialog(frame, "Secret Mode", true);
-		secretDialog.setSize(300, 150);
-		secretDialog.setLayout(new BorderLayout());
-		secretDialog.setLocationRelativeTo(frame);
-		JLabel text = new JLabel("Secret mode unlocked. Play it?",
-				SwingConstants.CENTER);
-		secretDialog.add(text, BorderLayout.CENTER);
-		JPanel buttonPanel = new JPanel();
-		JButton secretYes = new JButton("Yes");
-		JButton secretNo = new JButton("No");
-		buttonPanel.add(secretYes);
-		buttonPanel.add(secretNo);
-		secretDialog.add(buttonPanel, BorderLayout.SOUTH);
-		addSecretYesListeners(secretYes);
-		addSecretNoListener(secretNo);
+        // listener
+        submitButton.addActionListener(new SubmitButtonListener(this));
+        JPanel scorePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        scoreLabel = new JLabel("Score: 0");
+        scorePanel.add(scoreLabel);
+        bottomPanel.add(scorePanel, BorderLayout.SOUTH);
+        frame.add(bottomPanel, BorderLayout.SOUTH);
 
-		// show image
-		JPanel middle = new JPanel(new BorderLayout());
-		questionLabel = new JLabel("", SwingConstants.CENTER);
-		questionLabel.setFont(new Font("Questions", Font.BOLD, 25));
-		imageLabel = new JLabel("", SwingConstants.CENTER);
-		middle.add(questionLabel, BorderLayout.NORTH);
-		middle.add(imageLabel, BorderLayout.CENTER);
-		frame.add(middle, BorderLayout.CENTER);
+        //re-do
+        confirmPanel = new JPanel();
+        yesButton = new JButton("Yes");
+        noButton = new JButton("No");
+        confirmPanel.add(yesButton);
+        confirmPanel.add(noButton);
+        confirmPanel.setVisible(false);
+        frame.add(confirmPanel, BorderLayout.EAST);
 
-		categoryDialog.setVisible(true);
-	}
+        // category 
+        categoryDialog = new JDialog(frame, "Choose Category", true);
+        categoryDialog.setLayout(new BorderLayout());
+        categoryDialog.setSize(350, 200);
+        categoryDialog.setLocationRelativeTo(frame);
+        JLabel label = new JLabel("Choose a category:", SwingConstants.CENTER);
+        categoryDialog.add(label, BorderLayout.NORTH);
+        categoryPanel = new JPanel(new FlowLayout());
+        categoryDialog.add(categoryPanel, BorderLayout.CENTER);
+
+        // secret mode 
+        secretDialog = new JDialog(frame, "Secret Mode", true);
+        secretDialog.setSize(300, 150);
+        secretDialog.setLayout(new BorderLayout());
+        secretDialog.setLocationRelativeTo(frame);
+
+        JLabel text = new JLabel("Secret mode unlocked. Do you want to play it?", SwingConstants.CENTER);
+        secretDialog.add(text, BorderLayout.CENTER);
+        JPanel buttonPanel = new JPanel();
+        JButton secretYes = new JButton("Yes");
+        JButton secretNo = new JButton("No");
+        buttonPanel.add(secretYes);
+        buttonPanel.add(secretNo);
+        secretDialog.add(buttonPanel, BorderLayout.SOUTH);
+
+        addSecretYesListeners(secretYes);
+        addSecretNoListener(secretNo);
+
+        // main window
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
+    }
 
 	// secret button listener
 	private void addSecretYesListeners(JButton secretYes)
@@ -217,17 +216,16 @@ public class GUI implements GameView
 	@Override
 	public void showQuestion(Question question)
 	{
-		System.out.println("GUI.showQuestion called: " + question.getPrompt());
 		questionLabel.setText(question.getPrompt());
-		Image img = question.getImage();
-		if (img == null)
-		{
-			imageLabel.setIcon(null);
-		}
-		else
-		{
-			imageLabel.setIcon(new ImageIcon(img));
-		}
+
+        submitButton.setEnabled(true);
+        answerField.setEnabled(true);
+        answerField.setText("");
+
+        //refresh UI
+        frame.revalidate();
+        frame.repaint();
+
 	}
 
 	// if time not up player cannot input answer
@@ -244,7 +242,6 @@ public class GUI implements GameView
 	{
 		answerField.setEnabled(true);
 		submitButton.setEnabled(true);
-		answerField.requestFocusInWindow();
 	}
 
 	@Override
@@ -290,6 +287,7 @@ public class GUI implements GameView
 		// show dialog
 		categoryDialog.pack();
 		categoryDialog.setLocationRelativeTo(frame);
+		
 		categoryDialog.setVisible(true);
 	}
 
@@ -316,24 +314,6 @@ public class GUI implements GameView
 
 		categoryPanel.add(button);
 	}
-
-	// private void makeButton(Category category)
-	// {
-	// JButton button = new JButton(category.getName());
-	// button.addActionListener(new ActionListener()
-	// {
-	// @Override
-	// public void actionPerformed(ActionEvent e)
-	// {
-	// categoryDialog.setVisible(false);
-	// if (game != null)
-	// {
-	// game.categoryChosen(category);
-	// }
-	// }
-	// });
-	// categoryPanel.add(button);
-	// }
 
 	@Override
 	// if something wrong show message

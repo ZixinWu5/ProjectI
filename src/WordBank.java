@@ -32,7 +32,7 @@ public class WordBank
 				// if category is animal, then read from animal file, get words
 				// from it
 			}
-			else if (category == Category.Zootopia)
+			else if (category == Category.ZOOTOPIA)
 			{
 				return loadWordsFromFile("src/zootopia.txt");
 				// if category is daily, then read from daily file, get words
