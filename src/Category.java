@@ -19,7 +19,6 @@ public class Category
 {
 	private String name;
 	private static String[] words;
-	public static Category Zootopia;
 
 	public static final Category FRUIT = new Category("fruit", words);
 	public static final Category ZOOTOPIA = new Category("zootopia", words);
