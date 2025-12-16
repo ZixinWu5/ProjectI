@@ -119,7 +119,7 @@ public class GUI implements GameView
         // category 
         categoryDialog = new JDialog(frame, "Choose Category", true);
         categoryDialog.setLayout(new BorderLayout());
-        categoryDialog.setSize(350, 200);
+        categoryDialog.setSize(350,350);
         categoryDialog.setLocationRelativeTo(frame);
         JLabel label = new JLabel("Choose a category:", SwingConstants.CENTER);
         categoryDialog.add(label, BorderLayout.NORTH);
@@ -222,9 +222,6 @@ public class GUI implements GameView
         answerField.setEnabled(true);
         answerField.setText("");
 
-        //refresh UI
-        frame.revalidate();
-        frame.repaint();
 
 	}
 
@@ -280,9 +277,6 @@ public class GUI implements GameView
 			makeCategoryButton(category);
 		}
 
-		// refresh panel so buttons show up
-		categoryPanel.revalidate();
-		categoryPanel.repaint();
 
 		// show dialog
 		categoryDialog.pack();
