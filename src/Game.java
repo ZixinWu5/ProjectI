@@ -65,7 +65,7 @@ public class Game
 	// secret mode has 6 questions each round
 	public static final int secretModeQuestions = 6;
 	// time, 4 seconds show question
-	public static final int questionTimer = 4 * 1000;
+	public static final int questionTimer = 0;
 
 	// constructor
 	public Game(GameView view, WordBank wordBank, ScoreBoard scoreBoard,
