@@ -26,17 +26,16 @@ public class SecretMode extends GameMode
 	public List<Question> buildRound(Category category, WordBank wordBank,
 			int count)
 	{
-		// new list
+		//make list and add question and answers in
 		List<Question> list = new ArrayList<>();
-
-		// my answers
-		list.add(new PhotoQuestion("catcodile", "images/catcodile.jpg"));
-		list.add(new PhotoQuestion("eaglet", "images/eaglet.jpg"));
-		list.add(new PhotoQuestion("girtle", "images/girtle.jpg"));
-		list.add(new PhotoQuestion("lionguin", "images/lionguin.jpg"));
-		list.add(new PhotoQuestion("snakat", "images/snakat.jpg"));
-		list.add(new PhotoQuestion("tigake", "images/tigake.jpg"));
-
+		list.add(new Question( "Q1: What is the animal call when cat + crocodile together?", "catcodile"));
+		list.add(new Question( "Q2: What is the animal call when eagle + rabbit together?", "eaglet"));
+		list.add(new Question( "Q3: What is the animal call when giraffe + Tortoise together?", "girtle"));
+		list.add(new Question( "Q4: What is the animal call when lion + penguin together?", "lionguin"));
+		list.add(new Question( "Q5: What is the animal call when snake + cat together?", "snaket"));
+		list.add(new Question( "Q6: What is the animal call when togeer + snake together?", "togake"));
+		
+		//return it
 		return list;
 	}
 }

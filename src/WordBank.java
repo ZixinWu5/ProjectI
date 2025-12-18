@@ -1,4 +1,3 @@
-
 /**
  * Lead Author(s):
  *
@@ -16,67 +15,70 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
+//place we read the word form file
 public class WordBank
 {
-	// i feel something is wrong here, why it need to throw exception here(?),
-	// otherwise will turn red
-	public List<String> getWordsForCategory(Category category)
+	public String[] getWordsForCategory(Category category)
 	{
+		//declare list, so we could store the words from file
+		List<String> list;
+
+		//determine category correct or not
+		if (category == Category.FRUIT)
+		{
+			list = loadWordsFromFile("src/fruit.txt");
+		}
+		else if (category == Category.DAILY)
+		{
+			list = loadWordsFromFile("src/daily.txt");
+		}
+		else if (category == Category.ZOOTOPIA)
+		{
+			list = loadWordsFromFile("src/zootopia.txt");
+		}
+		else
+		{
+			//if none of them, return empty list
+			return new String[0];
+		}
+		//change list to array, so I could shuffle the things after
+		String[] arr = list.toArray(new String[0]);
+		return arr;
+	}
+
+	private List<String> loadWordsFromFile(String fileName)
+	{
+		//declare a variable words to store 
+		List<String> words = new ArrayList<>();
+
 		try
 		{
-			// if category fruit, then read fruit file, and get words from there
-			if (category == Category.FRUIT)
+			//open file and read line by line 
+			BufferedReader br = new BufferedReader(new FileReader(fileName));
+			//store each line variable
+			String line;
+
+			//every time read one line, until is null end loop
+			while ((line = br.readLine()) != null)
 			{
-				return loadWordsFromFile("src/fruit.txt");
-				// if category is animal, then read from animal file, get words
-				// from it
+				//delete the extra empty space from read file
+				line = line.trim();
+				//ignore the empty space
+				if (!line.isEmpty())
+				{
+					//add word to list
+					words.add(line);
+				}
 			}
-			else if (category == Category.ZOOTOPIA)
-			{
-				return loadWordsFromFile("src/zootopia.txt");
-				// if category is daily, then read from daily file, get words
-				// from it
-			}
-			else if (category == Category.DAILY)
-			{
-				return loadWordsFromFile("src/daily.txt");
-			}
+			//close is important
+			br.close();
 		}
+		//just in case if something went wrong that cannot read from file
 		catch (IOException e)
 		{
-			System.out.println("cannot find words: " + e.getMessage());
+			System.out.println("cannot load words: " + e.getMessage());
 		}
-		// if none of them up there, end
-		return new ArrayList<>();
-	}
-
-	private List<String> loadWordsFromFile(String fileName) throws IOException
-	{
-		// empty bags
-		List<String> words = new ArrayList<>();
-		// open file
-		FileReader fr = new FileReader(fileName);
-		// read it
-		BufferedReader br = new BufferedReader(fr);
-
-		// read one line, return one line, if not return null
-		String line = br.readLine();
-		// if not null continue
-		while (line != null)
-		{
-			// if not empty
-			if (line.length() > 0)
-			{
-				// add to words
-				words.add(line);
-			}
-			// then read next line
-			line = br.readLine();
-		}
-		// always close it
-		br.close();
+		//return words 
 		return words;
 	}
-
 }

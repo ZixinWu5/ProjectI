@@ -52,7 +52,7 @@ public class GUI implements GameView
     // score
     private JLabel scoreLabel;
 
-    // redo confirm
+    // re do confirm
     private JPanel confirmPanel;
     private JButton yesButton;
     private JButton noButton;
@@ -96,6 +96,9 @@ public class GUI implements GameView
         inputPanel.add(new JLabel("your answer:"));
         inputPanel.add(answerField);
         inputPanel.add(submitButton);
+        JButton quitButton = new JButton("quit");
+        inputPanel.add(quitButton);
+        addQuitListener(quitButton);
 
         bottomPanel.add(inputPanel, BorderLayout.CENTER);
 
@@ -114,6 +117,8 @@ public class GUI implements GameView
         confirmPanel.add(yesButton);
         confirmPanel.add(noButton);
         confirmPanel.setVisible(false);
+        addRedoYesListener(yesButton);
+        addRedoNoListener(noButton);
         frame.add(confirmPanel, BorderLayout.EAST);
 
         // category 
@@ -140,7 +145,6 @@ public class GUI implements GameView
         buttonPanel.add(secretYes);
         buttonPanel.add(secretNo);
         secretDialog.add(buttonPanel, BorderLayout.SOUTH);
-
         addSecretYesListeners(secretYes);
         addSecretNoListener(secretNo);
 
@@ -149,23 +153,75 @@ public class GUI implements GameView
         frame.setVisible(true);
     }
 
+    //if quit button got clicked then player could quit that category
+    public void onQuitClicked()
+    {
+        if (game != null)
+        {
+            game.quit();
+        }
+    }
+    
+    //quit button action listener
+    private void addQuitListener(JButton quit)
+    {
+    	quit.addActionListener(new QuitListener(this));
+    }
+    
+    //if player say so, then re do category
+    public void onRedoYesClicked()
+    {
+    	confirmPanel.setVisible(false);
+    	if(game != null)
+    	{
+    		//inside re do category method will asked them redo 
+    		game.redoCategoryChoose(true);
+    	}
+    }
+    
+    //when re do not clicked, then we do not allow them choose category again
+    public void onRedoNoClicked()
+    {
+    	confirmPanel.setVisible(false);
+    	if(game != null)
+    	{
+    		//inside redo category method will ask player choose next category
+    		game.redoCategoryChoose(false);
+    	}
+    }
+    
+    //action listener for re do yes button
+    private void addRedoYesListener(JButton yes)
+    {
+    	yes.addActionListener(new RedoYesListener(this));
+    }
+    
+    //action listener for re do no button
+    private void addRedoNoListener(JButton no)
+    {
+    	no.addActionListener(new RedoNoListener(this));
+    }
+    
 	// secret button listener
 	private void addSecretYesListeners(JButton secretYes)
 	{
 		secretYes.addActionListener(new SecretYesListener(this));
 	}
-
+	
+	//action listener for secret no button
 	private void addSecretNoListener(JButton secretNo)
 	{
 		secretNo.addActionListener(new SecretNoListener(this));
 	}
-
+	
+	//if secret mode player clicked yes, then start it
 	public void onSecretYesClicked()
 	{
 		secretChoice = true;
 		secretDialog.setVisible(false);
 	}
 
+	//if secret mode been click no, then we say goodbye+player name
 	public void onSecretNoClicked()
 	{
 		secretChoice = false;
@@ -216,13 +272,13 @@ public class GUI implements GameView
 	@Override
 	public void showQuestion(Question question)
 	{
+		//take question show on questionPanel
 		questionLabel.setText(question.getPrompt());
-
+		
+		//make sure submit button could clicked 
         submitButton.setEnabled(true);
-        answerField.setEnabled(true);
+        //clear input window
         answerField.setText("");
-
-
 	}
 
 	// if time not up player cannot input answer
@@ -277,21 +333,25 @@ public class GUI implements GameView
 			makeCategoryButton(category);
 		}
 
-
 		// show dialog
 		categoryDialog.pack();
+		//make it middle window
 		categoryDialog.setLocationRelativeTo(frame);
-		
+		//category choose dialog
 		categoryDialog.setVisible(true);
 	}
 
+	//category buttons
 	private void makeCategoryButton(Category category)
 	{
+		//if is empty category then end
 		if (category == null)
 		{
 			return;
 		}
+		//make a button that contain names 
 		JButton button = new JButton(category.toString());
+		//listener for each button
 		button.addActionListener(new ActionListener()
 		{
 			@Override
@@ -301,11 +361,12 @@ public class GUI implements GameView
 				categoryDialog.setVisible(false);
 				if (game != null)
 				{
+					//tell game which category player choose
 					game.categoryChosen(category);
 				}
 			}
 		});
-
+		//after close listener, add button to category panel
 		categoryPanel.add(button);
 	}
 

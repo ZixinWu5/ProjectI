@@ -11,26 +11,49 @@
  *         version 1
  */
 import java.util.List;
+import java.util.Random;
 import java.util.ArrayList;
 
 class StandardMode extends GameMode
 {
+	//count points
 	@Override
 	public boolean isScored()
 	{
 		return true;
 	}
-
+	
 	public List<Question> buildRound(Category category, WordBank wordBank,
 			int questionCount)
 	{
+		//new list and add 
 		List<Question> list = new ArrayList<>();
-		List<String> words = wordBank.getWordsForCategory(category);
-		for (int i = 0; i < questionCount; i++)
+		//take from word bank
+		String[] words = wordBank.getWordsForCategory(category);
+		
+		//random shuffle yeah
+		Random rand = new Random();
+		
+		//from array end to the beginning
+		for (int i = words.length-1; i>0; i--)
 		{
-			String w = words.get(i);
-			list.add(new Question("spell " + w, w));
+			//shuffle
+			int j = rand.nextInt(i+1);
+			String temp = words[i];
+			words[i] = words[j];
+			words[j] = temp;
 		}
+		
+		//10 time loop
+		for(int i = 0; i < questionCount; i++)
+		{
+			//take i words from w
+			String w = words[i];
+			//and add to the list and show question w, and answer a
+			//variable had declare at question before
+			list.add(new Question("spell " + w,w));
+		}
+		
 		return list;
 	}
 }

@@ -28,3 +28,6 @@
 /GUI$1.class
 /SubmitButtonListener.class
 /GUI$2.class
+/QuitListener.class
+/RedoYesListener.class
+/RedoNoListener.class

@@ -43,12 +43,6 @@ public class Question
 		return answer;
 	}
 
-	// check image or not
-	public Image getImage()
-	{
-		return null;
-	}
-
 	// check if player answer is right
 	public boolean checkAnswer(String playerAnswer)
 	{
@@ -61,7 +55,10 @@ public class Question
 		{
 			return false;
 		}
-		return playerAnswer.equals(answer);
+		//just in case if player put answer as capital
+		String a = playerAnswer.trim().toLowerCase();
+		String b = answer.trim().toLowerCase();
+		return a.equals(b);
 	}
 
 }

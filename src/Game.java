@@ -65,7 +65,7 @@ public class Game
 	// secret mode has 6 questions each round
 	public static final int secretModeQuestions = 6;
 	// time, 4 seconds show question
-	public static final int questionTimer = 0;
+	public static final int questionTimer = 4*1000;
 
 	// constructor
 	public Game(GameView view, WordBank wordBank, ScoreBoard scoreBoard,
@@ -93,31 +93,38 @@ public class Game
 	// use the player name after they typed it
 	public void playerName(String name)
 	{
+		//check empty player name or cancel
 		if (name == null)
 		{
+			//then player name is empty space, we end it
 			this.playerName = "";
 			return;
 		}
+		//check the first empty space
 		int start = 0;
 		for (int i = 0; i < name.length(); i++)
 		{
+			//empty space check, then we delete it
 			if (name.charAt(i) != ' ')
 			{
 				start = i;
 				break;
 			}
 		}
-
+		//check the last empty space
 		int end = name.length() - 1;
 		for (int i = name.length() - 1; i >= 0; i--)
 		{
+			//empty space check, then we delete it
 			if (name.charAt(i) != ' ')
 			{
 				end = i;
 				break;
 			}
 		}
+		// cancel the empty space then add the name
 		this.playerName = name.substring(start, end + 1);
+		//let player choose category now
 		askForNextCategory();
 	}
 
@@ -131,11 +138,6 @@ public class Game
 	// called when timer time is up for a question
 	public void questionTimeUp()
 	{
-		Question q = currentQuestions.get(currentIndex);
-		if (q.getImage() == null)
-		{
-			view.hideQuestion();
-		}
 		view.allowAnswerInput();
 	}
 
@@ -339,14 +341,15 @@ public class Game
 		showNextQuestion();
 	}
 
-	// return a read only copy of record
-	public List<RoundResult> getHistory()
-	{
-		return List.copyOf(history);
-	}
-
+	//save the record, such as re-do
 	public void saveRoundResult(RoundResult result)
 	{
-
+		history.add(result);
 	}
+	
+	// return a read only copy of record
+		public List<RoundResult> getHistory()
+		{
+			return List.copyOf(history);
+		}
 }
