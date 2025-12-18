@@ -15,17 +15,6 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Lead Author(s):
- *
- * @author 5550129061; zixin wu
- *         References:
- *         Morelli, R., & Walde, R. (2016). Java, Java, Java: Object-Oriented
- *         Problem Solving.
- *         Retrieved from
- *         https://open.umn.edu/opentextbooks/textbooks/java-java-java-object-oriented-problem-solving
- *         version 1
- */
 
 // main controller class
 // connect the game view, word bank, word bank, question, question timer, score
@@ -59,13 +48,15 @@ public class Game
 	private int currentIndex;
 	// game has a history list contain all past round results
 	private final List<RoundResult> history;
+	//game has round result
+	private RoundResult lastResult;
 
 	// standard mode has 10 questions each round
 	public static final int standardModeQuestions = 10;
 	// secret mode has 6 questions each round
 	public static final int secretModeQuestions = 6;
 	// time, 4 seconds show question
-	public static final int questionTimer = 4*1000;
+	public static final int questionTimer = 4*10000;
 
 	// constructor
 	public Game(GameView view, WordBank wordBank, ScoreBoard scoreBoard,
@@ -138,6 +129,7 @@ public class Game
 	// called when timer time is up for a question
 	public void questionTimeUp()
 	{
+		view.hideQuestion();
 		view.allowAnswerInput();
 	}
 
@@ -263,30 +255,24 @@ public class Game
 		int correct = scoreBoard.getCorrectCount();
 		// ask score board how many question wrong
 		int incorrect = scoreBoard.getIncorrectCount();
-		// ask score board total point
-		int finalScore = scoreBoard.getScore();
 
 		// we could use following to save to history, and file
-		RoundResult result = new RoundResult(playerName, currentCategory,
-				correct, incorrect, finalScore);
+		RoundResult result = new RoundResult(playerName, currentCategory, correct, incorrect, scoreBoard.getScore());
+		lastResult = result;
 		// save records
 		history.add(result);
 		// check if category done
 		tracker.recordRoundResult(result);
-
-		// just in case if not authorize, file not exist
-		try
-		{
-			saveRoundResult(result);
-		}
-		// if during save have wrong, show the error message
-		catch (Exception e)
-		{
-			view.showErrorMessage("cannot save round result" + e.getMessage());
-		}
-
+		
 		// tell game view the round result
-		view.showRoundSummary(result);
+	    view.showRoundSummary(lastResult);
+		//if secret mode unlocked, and round finished then we show answer at end
+		if(currentMode == secretMode)
+		{
+			view.showSecretModeAnswers();
+			view.showEndMessage(lastResult);
+			return;
+		}
 
 		// ask tracker if secret mode can be unlocked
 		if (tracker.isSecretModeUnlocked())
@@ -298,6 +284,7 @@ public class Game
 			// if not, let player choose another category
 			askForNextCategory();
 		}
+		
 	}
 
 	// finish the round, save record, check result
@@ -306,7 +293,7 @@ public class Game
 		// if secret mode is not unlocked, end the game
 		if (!tracker.isSecretModeUnlocked())
 		{
-			view.showEndMessage(playerName);
+			view.showEndMessage(lastResult);
 			return;
 		}
 
@@ -321,7 +308,7 @@ public class Game
 		else
 		{
 			// if not, end game
-			view.showEndMessage(playerName);
+			view.showEndMessage(lastResult);
 		}
 	}
 
