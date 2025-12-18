@@ -12,16 +12,15 @@
 
 public class RoundResult
 {
+	//declare variable for name, category, correct, incorrect, and final score
 	private final String playerName;
-
 	private final Category category;
-
 	private final int correct;
 	private final int incorrect;
 	private final int finalScore;
 
-	public RoundResult(String playerName, Category category, int correct,
-			int incorrect, int finalScore)
+	//constructor
+	public RoundResult(String playerName, Category category, int correct, int incorrect, int finalScore)
 	{
 		this.playerName = playerName;
 		this.category = category;
@@ -64,7 +63,6 @@ public class RoundResult
 	@Override
 	public String toString()
 	{
-		return playerName + "category:" + category + "correct: " + correct
-				+ "incorrect: " + incorrect + "finalScore: " + finalScore;
+		return playerName + "category:" + category + "correct: " + correct + "incorrect: " + incorrect + "finalScore: " + finalScore;
 	}
 }
